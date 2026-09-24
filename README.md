@@ -1,31 +1,35 @@
-# Tự động phân loại yêu cầu bảo hành từ mô tả lỗi khách hàng
+# Automatic Warranty Request Classification
 
-Sinh viên: Bùi Ngọc Thiệu - 2374802010471 - Track AI
-Học phần:
-Chuyên đề tốt nghiệp 1, HK1 2026–2027
-Luồng nghiệp vụ:
+Student: Bui Ngoc Thieu - 2374802010471 - Track AI  
+Course:  
+Graduation Thesis 1, Semester 1, 2026–2027  
+Business Flow:  
 L10 - Automatic Warranty Request Classification
 
-## # 1. Mục tiêu
+## # 1. Objective
 
-Xây dựng chức năng tự động phân loại mô tả lỗi bảo hành của khách hàng và xác định mức độ ưu tiên để hỗ trợ nhân viên tiếp nhận xử lý yêu cầu bảo hành.
+Build an automatic warranty request classification function that classifies customers' warranty issue descriptions and determines the priority level to support staff in processing warranty requests.
 
-## # 2. Yêu cầu môi trường
+## # 2. Environment Requirements
 
 Python 3.11
 
-Biến môi trường: xem `.env.example`
+Environment variables: see `.env.example`
 
-## # 3. Hướng dẫn chạy
+## # 3. Getting Started
 
-(BT2 yêu cầu ≤ 4 bước)
+(To be completed)
 
-## # 4. Cấu trúc thư mục
+## # 4. Project Structure
 
-## # 5. Kiểm thử
+(To be completed)
 
-## # 6. Trạng thái hiện tại
+## # 5. Testing
 
-☑ Khởi tạo project, smoke test chạy được (buổi 2)
-☐ Module tiếp nhận yêu cầu (buổi 8–10)
-☐ Module phân loại yêu cầu bằng AI (buổi 10–12)
+(To be completed)
+
+## # 6. Current Status
+
+☐ Project initialized, smoke test completed (Session 2)  
+☐ Warranty request handling module (Sessions 8–10)  
+☐ AI-based warranty request classification module (Sessions 10–12)
