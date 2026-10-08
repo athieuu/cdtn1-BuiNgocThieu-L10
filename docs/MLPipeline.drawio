@@ -1,0 +1,97 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Trang-1" id="vZdXmdsRy41-JRi3W5SI">
+    <mxGraphModel dx="2233" dy="798" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="Txh8h9RdKGIt8pGRoOAh-1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="&lt;font style=&quot;font-size: 16px;&quot;&gt;ML PILELINE - TRACK AI&lt;/font&gt;&lt;div&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;Phân loại tự động yêu cầu bảo hành&lt;/font&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="60" width="300" x="200" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="Txh8h9RdKGIt8pGRoOAh-7" edge="1" parent="1" source="Txh8h9RdKGIt8pGRoOAh-2" style="edgeStyle=none;curved=1;rounded=0;curveGeometry=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fontSize=12;startSize=8;endSize=8;" target="Txh8h9RdKGIt8pGRoOAh-4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Txh8h9RdKGIt8pGRoOAh-2" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="Input&lt;div&gt;&lt;ul&gt;&lt;li&gt;issue_description&lt;/li&gt;&lt;li&gt;(văn bản tự do)&lt;/li&gt;&lt;/ul&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="140" width="170" x="-270" y="120" as="geometry" />
+        </mxCell>
+        <mxCell id="Txh8h9RdKGIt8pGRoOAh-19" edge="1" parent="1" source="Txh8h9RdKGIt8pGRoOAh-4" style="edgeStyle=none;curved=1;rounded=0;curveGeometry=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fontSize=12;startSize=8;endSize=8;" target="Txh8h9RdKGIt8pGRoOAh-8">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Txh8h9RdKGIt8pGRoOAh-4" parent="1" style="rounded=0;whiteSpace=wrap;html=1;align=center;" value="Data Validation&lt;div&gt;&lt;ul&gt;&lt;li&gt;Kiểm tra dữ liệu đầu vào&lt;/li&gt;&lt;li&gt;loại bỏ dữ liệu trống / không hợp lệ&lt;/li&gt;&lt;/ul&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="140" width="200" x="-60" y="120" as="geometry" />
+        </mxCell>
+        <mxCell id="Txh8h9RdKGIt8pGRoOAh-20" edge="1" parent="1" source="Txh8h9RdKGIt8pGRoOAh-8" style="edgeStyle=none;curved=1;rounded=0;curveGeometry=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fontSize=12;startSize=8;endSize=8;" target="Txh8h9RdKGIt8pGRoOAh-9">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Txh8h9RdKGIt8pGRoOAh-8" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="Preprocessing&lt;div&gt;&lt;ul&gt;&lt;li&gt;Làm sạch văn bản&lt;/li&gt;&lt;li&gt;Tách từ&amp;nbsp;&lt;/li&gt;&lt;li&gt;Loại bỏ stopword&lt;/li&gt;&lt;/ul&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="140" width="200" x="180" y="120" as="geometry" />
+        </mxCell>
+        <mxCell id="Txh8h9RdKGIt8pGRoOAh-21" edge="1" parent="1" source="Txh8h9RdKGIt8pGRoOAh-9" style="edgeStyle=none;curved=1;rounded=0;curveGeometry=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fontSize=12;startSize=8;endSize=8;" target="Txh8h9RdKGIt8pGRoOAh-10">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Txh8h9RdKGIt8pGRoOAh-9" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="Feature Presentation&lt;div&gt;&lt;ul&gt;&lt;li&gt;Convert to Vector&lt;/li&gt;&lt;li&gt;Chuẩn hóa đặc trưng&lt;/li&gt;&lt;/ul&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="140" width="200" x="414" y="120" as="geometry" />
+        </mxCell>
+        <mxCell id="Txh8h9RdKGIt8pGRoOAh-22" edge="1" parent="1" source="Txh8h9RdKGIt8pGRoOAh-10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;fontSize=12;startSize=8;endSize=8;" target="Txh8h9RdKGIt8pGRoOAh-11">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Txh8h9RdKGIt8pGRoOAh-10" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="Data Split&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;tách dữ liệu ra làm 3 lớp&lt;/div&gt;&lt;div&gt;&lt;ul&gt;&lt;li&gt;train&lt;/li&gt;&lt;li&gt;validate&lt;/li&gt;&lt;li&gt;test&lt;/li&gt;&lt;/ul&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="140" width="200" x="650" y="120" as="geometry" />
+        </mxCell>
+        <mxCell id="Txh8h9RdKGIt8pGRoOAh-23" edge="1" parent="1" source="Txh8h9RdKGIt8pGRoOAh-11" style="edgeStyle=none;curved=1;rounded=0;curveGeometry=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fontSize=12;startSize=8;endSize=8;" target="Txh8h9RdKGIt8pGRoOAh-12">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Txh8h9RdKGIt8pGRoOAh-11" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="Model Training&lt;div&gt;&lt;br&gt;&lt;div&gt;Huấn luyện mô hình văn bản&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="90" width="180" x="-275" y="350" as="geometry" />
+        </mxCell>
+        <mxCell id="Txh8h9RdKGIt8pGRoOAh-24" edge="1" parent="1" source="Txh8h9RdKGIt8pGRoOAh-12" style="edgeStyle=none;curved=1;rounded=0;curveGeometry=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fontSize=12;startSize=8;endSize=8;" target="Txh8h9RdKGIt8pGRoOAh-13">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Txh8h9RdKGIt8pGRoOAh-12" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="&lt;div&gt;Validation &amp;amp; Tunning&amp;nbsp;&lt;/div&gt;&lt;div&gt;&lt;ul&gt;&lt;li&gt;đánh giá trên tập Validation&lt;/li&gt;&lt;li&gt;điều chỉnh các tham số&lt;/li&gt;&lt;li&gt;chọn mô hình tốt nhất&lt;/li&gt;&lt;/ul&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="90" width="200" x="-40" y="350" as="geometry" />
+        </mxCell>
+        <mxCell id="Txh8h9RdKGIt8pGRoOAh-25" edge="1" parent="1" source="Txh8h9RdKGIt8pGRoOAh-13" style="edgeStyle=none;curved=1;rounded=0;curveGeometry=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fontSize=12;startSize=8;endSize=8;" target="Txh8h9RdKGIt8pGRoOAh-14">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Txh8h9RdKGIt8pGRoOAh-13" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="&lt;div&gt;Testing&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;đánh giá dựa trên tập test&lt;/div&gt;" vertex="1">
+          <mxGeometry height="90" width="180" x="200" y="350" as="geometry" />
+        </mxCell>
+        <mxCell id="Txh8h9RdKGIt8pGRoOAh-26" edge="1" parent="1" source="Txh8h9RdKGIt8pGRoOAh-14" style="edgeStyle=none;curved=1;rounded=0;curveGeometry=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fontSize=12;startSize=8;endSize=8;" target="Txh8h9RdKGIt8pGRoOAh-15">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Txh8h9RdKGIt8pGRoOAh-14" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="&lt;div&gt;Evaluation Metric&lt;/div&gt;&lt;div&gt;Ngưỡng chấp nhận:&amp;nbsp;&lt;/div&gt;&lt;div&gt;&lt;ul&gt;&lt;li&gt;Accuracy &amp;gt; 0.80&lt;/li&gt;&lt;li&gt;Macro F1 &amp;gt; 0.75&lt;/li&gt;&lt;li&gt;Precission &amp;gt; 0.75&lt;/li&gt;&lt;li&gt;Recall &amp;gt; 0.75&lt;/li&gt;&lt;/ul&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="110" width="240" x="430" y="340" as="geometry" />
+        </mxCell>
+        <mxCell id="Txh8h9RdKGIt8pGRoOAh-15" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="&lt;div&gt;Save Model&lt;/div&gt;&lt;div&gt;&lt;ul&gt;&lt;li&gt;Lưu mô hình tốt nhất&lt;/li&gt;&lt;li&gt;Lưu cấu hình&amp;nbsp;&lt;/li&gt;&lt;li&gt;Sẵn sàng cho inferences&lt;/li&gt;&lt;/ul&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="90" width="180" x="760" y="350" as="geometry" />
+        </mxCell>
+        <mxCell id="Txh8h9RdKGIt8pGRoOAh-28" edge="1" parent="1" source="Txh8h9RdKGIt8pGRoOAh-16" style="edgeStyle=none;curved=1;rounded=0;curveGeometry=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fontSize=12;startSize=8;endSize=8;" target="Txh8h9RdKGIt8pGRoOAh-17">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Txh8h9RdKGIt8pGRoOAh-16" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="&lt;div&gt;Inference&lt;/div&gt;&lt;div&gt;&lt;ul&gt;&lt;li&gt;nhận mô tả lỗi từ hệ thống&lt;/li&gt;&lt;li&gt;tiền xử lý giống giai đoạn train&lt;/li&gt;&lt;li&gt;dự đoán nhóm sự cố&lt;/li&gt;&lt;/ul&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="90" width="210" x="-280" y="495" as="geometry" />
+        </mxCell>
+        <mxCell id="Txh8h9RdKGIt8pGRoOAh-29" edge="1" parent="1" source="Txh8h9RdKGIt8pGRoOAh-17" style="edgeStyle=none;curved=1;rounded=0;curveGeometry=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fontSize=12;startSize=8;endSize=8;" target="Txh8h9RdKGIt8pGRoOAh-18">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Txh8h9RdKGIt8pGRoOAh-17" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="&lt;div&gt;Output&lt;/div&gt;&lt;div&gt;&lt;ul&gt;&lt;li&gt;predicted_category&lt;/li&gt;&lt;li&gt;classification_status&lt;/li&gt;&lt;/ul&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="90" width="180" x="-10" y="495" as="geometry" />
+        </mxCell>
+        <mxCell id="Txh8h9RdKGIt8pGRoOAh-18" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="&lt;div&gt;Kết quả được sử dụng&lt;/div&gt;&lt;div&gt;&lt;ul&gt;&lt;li&gt;Hiển thị cho nhân viên tiếp nhận bảo hành&lt;/li&gt;&lt;li&gt;lưu vào cơ sở dữ liệu&lt;/li&gt;&lt;li&gt;thống kê cho quản trị viên&lt;/li&gt;&lt;/ul&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="90" width="300" x="240" y="495" as="geometry" />
+        </mxCell>
+        <mxCell id="Txh8h9RdKGIt8pGRoOAh-27" edge="1" parent="1" source="Txh8h9RdKGIt8pGRoOAh-15" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.467;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;fontSize=12;startSize=8;endSize=8;" target="Txh8h9RdKGIt8pGRoOAh-16">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Txh8h9RdKGIt8pGRoOAh-30" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="&lt;font style=&quot;font-size: 18px;&quot;&gt;Các tham số và mô hình&lt;/font&gt;&lt;div&gt;&lt;ul&gt;&lt;li&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;thuật toán (tham khảo): Logistic Regression / SVM / BERT&lt;/font&gt;&lt;/li&gt;&lt;li&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;Vectonizer: TF-IDF / Embending (BERT)&lt;/font&gt;&lt;/li&gt;&lt;li&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;Batch size: 32 - 64&lt;/font&gt;&lt;/li&gt;&lt;li&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;Epochs: 3 - 20&lt;/font&gt;&lt;/li&gt;&lt;li&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;Learning rate: 1e-5 - 1e-3&lt;/font&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="200" width="440" x="-280" y="640" as="geometry" />
+        </mxCell>
+        <mxCell id="Txh8h9RdKGIt8pGRoOAh-33" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="&lt;font style=&quot;font-size: 18px;&quot;&gt;METRIC VÀ NGƯỠNG&lt;/font&gt;&lt;div&gt;&lt;ul&gt;&lt;li&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;Accuracy &amp;gt; 0.80&lt;/font&gt;&lt;/li&gt;&lt;li&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;Macro F1 &amp;gt; 0.75&lt;/font&gt;&lt;/li&gt;&lt;li&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;Precission &amp;gt; 0.75&lt;/font&gt;&lt;/li&gt;&lt;li&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;Recall &amp;gt; 0.75&lt;/font&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="200" width="440" x="250" y="640" as="geometry" />
+        </mxCell>
+        <mxCell id="Txh8h9RdKGIt8pGRoOAh-34" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="Nếu không đạt ngưỡng cần điều chỉnh mô hình dữ liệu" vertex="1">
+          <mxGeometry height="30" width="340" x="320" y="840" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
