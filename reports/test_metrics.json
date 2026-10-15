@@ -1,0 +1,118 @@
+{
+  "model": "TF-IDF + LinearSVC",
+  "evaluation_split": "test",
+  "test_rows": 626,
+  "accuracy": 1.0,
+  "macro_f1": 1.0,
+  "weighted_f1": 1.0,
+  "per_class_metrics": {
+    "KHAC": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 39.0
+    },
+    "MAN_HINH": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 224.0
+    },
+    "NUOC_VAO": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 61.0
+    },
+    "PHAN_MEM": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 85.0
+    },
+    "PIN": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 143.0
+    },
+    "SAC": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 74.0
+    },
+    "accuracy": 1.0,
+    "macro avg": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 626.0
+    },
+    "weighted avg": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 626.0
+    }
+  },
+  "labels": [
+    "KHAC",
+    "MAN_HINH",
+    "NUOC_VAO",
+    "PHAN_MEM",
+    "PIN",
+    "SAC"
+  ],
+  "confusion_matrix": [
+    [
+      39,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      224,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      61,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      85,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      143,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      74
+    ]
+  ],
+  "random_seed": 42
+}

@@ -1,0 +1,10 @@
+{
+  "model": "TF-IDF + LinearSVC",
+  "evaluation_split": "validation",
+  "accuracy": 1.0,
+  "macro_f1": 1.0,
+  "weighted_f1": 1.0,
+  "train_rows": 2778,
+  "validation_rows": 596,
+  "random_seed": 42
+}
