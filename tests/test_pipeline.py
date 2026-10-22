@@ -1,6 +1,8 @@
 ﻿import unittest
 import pandas as pd
 from pathlib import Path
+from unittest.mock import Mock
+from src.predict import predict_issue
 
 ROOT = Path(__file__).resolve().parent.parent
 DATA = ROOT / "data" / "raw" / "issue_descriptions.csv"
@@ -31,6 +33,42 @@ class TestWarrantyData(unittest.TestCase):
     def test_ids_are_unique_and_present(self):
         self.assertTrue(self.df["desc_id"].notna().all())
         self.assertTrue(self.df["desc_id"].is_unique)
+
+
+class TestPredictIssue(unittest.TestCase):
+    def setUp(self):
+        self.model = Mock()
+        self.model.predict.return_value = ["PIN"]
+
+    def test_predict_valid_description(self):
+        result = predict_issue(
+            self.model,
+            "Pin điện thoại nhanh hết pin",
+        )
+
+        self.assertEqual(result, "PIN")
+        self.model.predict.assert_called_once_with(
+            ["Pin điện thoại nhanh hết pin"]
+        )
+
+    def test_reject_empty_description(self):
+        with self.assertRaises(ValueError):
+            predict_issue(self.model, "")
+
+        self.model.predict.assert_not_called()
+
+    def test_reject_whitespace_description(self):
+        with self.assertRaises(ValueError):
+            predict_issue(self.model, "   ")
+
+        self.model.predict.assert_not_called()
+
+    def test_reject_non_string_description(self):
+        with self.assertRaises(TypeError):
+            predict_issue(self.model, None)
+
+        self.model.predict.assert_not_called()
+
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)

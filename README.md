@@ -1,12 +1,14 @@
 # Automatic Warranty Request Classification
 
-**Student:** Bui Ngoc Thieu – 2374802010471 – Track AI  
+**Student:** Bui Ngoc Thieu  
+**Student ID:** 2374802010471  
+**Track:** AI  
 **Course:** Graduation Thesis 1, Semester 1, 2026–2027  
 **Business Flow:** L10 – Automatic Warranty Request Classification
 
 ## 1. Objective
 
-Build an AI-based warranty request classification system that automatically classifies customer issue descriptions into six categories:
+Build a machine learning system that classifies customer warranty issue descriptions into six categories:
 
 - `MAN_HINH` – Screen issues
 - `PIN` – Battery issues
@@ -15,135 +17,158 @@ Build an AI-based warranty request classification system that automatically clas
 - `NUOC_VAO` – Water damage
 - `KHAC` – Other issues
 
-The system aims to support warranty staff in categorizing customer requests more efficiently and consistently.
+The system aims to help warranty staff categorize customer requests more efficiently and consistently.
 
-**Note:** Automatic priority-level determination is not currently implemented.
+**Note:** Automatic priority-level prediction is not currently implemented.
 
-## 2. Environment Requirements
+## 2. Technology Stack
+
+- Python 3.11
+- pandas
+- scikit-learn
+- joblib
+- matplotlib
+- unittest
+
+## 3. Dataset
+
+The dataset is stored at `data/raw/issue_descriptions.csv`.
+
+It contains 4,000 records and three columns:
+
+| Column | Description |
+|---|---|
+| `desc_id` | Description identifier |
+| `issue_desc` | Customer's warranty issue description |
+| `issue_category` | Target issue category |
+
+The dataset is split into training, validation, and test sets. Exact duplicate descriptions are grouped to prevent identical descriptions from appearing across different splits.
+
+Similar descriptions may still occur across splits and can make evaluation metrics overly optimistic.
+
+## 4. Environment Requirements
 
 - Python 3.11
 - Dependencies listed in `requirements.txt`
-- Environment variables: see `.env.example`
+- Dataset available at `data/raw/issue_descriptions.csv`
 
-## 3. Getting Started
+## 5. Installation
 
-### 3.1. Clone the repository
+Clone the repository:
 
 ```bash
 git clone https://github.com/athieuu/cdtn1-BuiNgocThieu-L10.git
 cd cdtn1-BuiNgocThieu-L10
 ```
 
-### 3.2. Create a virtual environment
-
-**Windows PowerShell:**
+Create and activate a virtual environment in Windows PowerShell:
 
 ```powershell
 py -3.11 -m venv .venv
 .\.venv\Scripts\Activate.ps1
 ```
 
-### 3.3. Install dependencies
+Install dependencies:
 
 ```bash
 python -m pip install -r requirements.txt
 ```
 
-### 3.4. Prepare the dataset
-
-Place the source dataset at:
+Ensure the dataset exists at:
 
 ```text
 data/raw/issue_descriptions.csv
 ```
 
-The CSV file must contain the following columns:
+The CSV file must contain `desc_id`, `issue_desc`, and `issue_category`.
 
-- `desc_id`
-- `issue_desc`
-- `issue_category`
+## 6. Run the Pipeline
 
-### 3.5. Run the pipeline
+Run the pipeline from the repository root:
 
 ```bash
 python src/run_pipeline.py
 ```
 
-The pipeline validates the dataset, checks data quality, splits the data, trains and compares classification models, selects a model using validation metrics, and evaluates the selected model on the test set.
+The pipeline performs the following steps:
 
-## 4. Project Structure
+1. Validate the raw dataset.
+2. Split the dataset into training, validation, and test sets.
+3. Check the data splits for exact duplicate descriptions.
+4. Train a TF-IDF + Logistic Regression baseline.
+5. Train a TF-IDF + Linear SVM model.
+6. Compare models using validation metrics.
 
-```text
-.
-├── data/
-│   ├── raw/
-│   └── processed/
-├── docs/
-│   ├── srs.md
-│   ├── ml_problem_statement.md
-│   ├── ai-disclosure.md
-│   ├── MLPipeline.drawio
-│   └── So_do_kien_truc.drawio
-├── reports/
-├── src/
-│   ├── data/
-│   │   ├── validate_data.py
-│   │   ├── check_near_duplicates.py
-│   │   ├── check_split.py
-│   │   └── split_data.py
-│   ├── models/
-│   │   ├── train_baseline.py
-│   │   ├── train_svm.py
-│   │   ├── compare_models.py
-│   │   └── evaluate_test.py
-│   └── run_pipeline.py
-├── tests/
-│   └── test_pipeline.py
-├── .env.example
-├── .gitignore
-├── requirements.txt
-└── README.md
-```
+The pipeline does **not** evaluate the test set by default. The test set should be used only after model selection is complete.
 
-## 5. Testing
+## 7. Models and Validation Results
 
-Run the automated tests with:
+The models are compared using:
+
+- Accuracy
+- Macro-F1
+- Weighted-F1
+- Per-class precision, recall, and F1-score
+
+Current validation results:
+
+| Model | Accuracy | Macro-F1 | Weighted-F1 |
+|---|---:|---:|---:|
+| TF-IDF + Logistic Regression | 0.9933 | 0.9884 | 0.9931 |
+| TF-IDF + Linear SVM | 1.0000 | 1.0000 | 1.0000 |
+
+Linear SVM currently ranks first by validation Macro-F1. These results should be interpreted alongside the potential impact of near-duplicate descriptions.
+
+## 8. Testing
+
+Run unit tests from the repository root:
 
 ```bash
 python -m unittest discover -s tests -v
 ```
 
-The tests check dataset validation and related pipeline requirements.
+The tests cover:
 
-The pipeline and tests should be run from the repository root with the required dataset and dependencies available.
+- Required dataset columns
+- Dataset availability
+- Non-empty descriptions
+- Valid category labels
+- Unique identifiers
+- Valid prediction input
+- Empty and whitespace-only descriptions
+- Non-string prediction input
 
-## 6. Current Status
+## 9. Project Structure
 
-- [x] Project initialized and repository structure created
-- [x] Dataset validation and data quality checks implemented
-- [x] Dataset splitting implemented to reduce exact-description overlap between splits
-- [x] Baseline Logistic Regression model implemented
-- [x] Linear SVM model implemented
-- [x] Model selection based on validation metrics implemented
-- [x] Test-set evaluation and confusion matrix generated
-- [x] Automated dataset validation tests implemented
-- [ ] Warranty request handling module
-- [ ] Automatic priority-level classification
+```text
+cdtn1-BuiNgocThieu-L10/
+├── data/
+│   ├── raw/
+│   └── processed/
+├── docs/
+├── models/
+├── reports/
+├── src/
+│   ├── data/
+│   ├── models/
+│   ├── predict.py
+│   └── run_pipeline.py
+├── tests/
+│   └── test_pipeline.py
+├── .gitignore
+├── requirements.txt
+└── README.md
+```
 
-## 7. Model Evaluation
+Generated model artifacts are excluded from Git through `.gitignore`.
 
-The current experiments compare Logistic Regression as the baseline with Linear Support Vector Classification (LinearSVC).
+## 10. Limitations and Future Work
 
-Model selection is based on validation metrics. The selected model is then evaluated on the held-out test set.
+- Investigate near-duplicate descriptions and their impact on evaluation.
+- Expand evaluation and document confusion-matrix findings.
+- Maintain reproducibility across repeated pipeline runs.
+- Implement and evaluate automatic priority-level prediction if required by the final project scope.
 
-See the generated files in `reports/` for the recorded metrics and confusion matrix.
+## 11. Documentation
 
-**Data limitation:** Similar or repeated issue descriptions may occur in the dataset. This can make evaluation metrics overly optimistic, even when exact duplicates are separated across splits. Results should therefore be interpreted with this limitation in mind.
-
-## 8. Documentation
-
-- `docs/srs.md` – Software Requirements Specification
-- `docs/ml_problem_statement.md` – Machine learning problem statement
-- `docs/ai-disclosure.md` – AI usage disclosure
-- `docs/MLPipeline.drawio` – Machine learning pipeline diagram
-- `docs/So_do_kien_truc.drawio` – System architecture diagram
+Project documentation and diagrams are available in the `docs/` directory, including the Software Requirements Specification, machine learning problem statement, AI usage disclosure, architecture diagram, and pipeline diagram.
