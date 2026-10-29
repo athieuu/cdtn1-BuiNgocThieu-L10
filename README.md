@@ -103,12 +103,46 @@ The pipeline does **not** evaluate the test set by default. The test set should 
 
 ## 7. Models and Validation Results
 
-The models are compared using:
+### 7.1 Model Selection
 
-- Accuracy
-- Macro-F1
-- Weighted-F1
-- Per-class precision, recall, and F1-score
+Two TF-IDF-based models were evaluated on the validation set:
+
+| Model | Accuracy | Macro-F1 | Weighted-F1 |
+|---|---:|---:|---:|
+| TF-IDF + Logistic Regression (Baseline) | 0.9933 | 0.9884 | 0.9931 |
+| TF-IDF + Linear SVC | 1.0000 | 1.0000 | 1.0000 |
+
+Linear SVC was selected based on its validation Macro-F1 score. The test set was not used for model selection.
+
+### 7.2 Final Test Evaluation
+
+After model selection, the selected Linear SVC model was evaluated on the held-out test set containing 626 records.
+
+| Metric | Test Score |
+|---|---:|
+| Accuracy | 1.0000 |
+| Macro-F1 | 1.0000 |
+| Weighted-F1 | 1.0000 |
+
+All six categories achieved precision, recall, and F1-score of 1.0000 on this test set.
+
+| Category | Precision | Recall | F1-score | Support |
+|---|---:|---:|---:|---:|
+| KHAC | 1.0000 | 1.0000 | 1.0000 | 39 |
+| MAN_HINH | 1.0000 | 1.0000 | 1.0000 | 224 |
+| NUOC_VAO | 1.0000 | 1.0000 | 1.0000 | 61 |
+| PHAN_MEM | 1.0000 | 1.0000 | 1.0000 | 85 |
+| PIN | 1.0000 | 1.0000 | 1.0000 | 143 |
+| SAC | 1.0000 | 1.0000 | 1.0000 | 74 |
+
+The confusion matrix is available at `reports/test_confusion_matrix.png`. The recorded matrix contains no off-diagonal errors for this test run.
+
+### 7.3 Interpretation and Limitations
+
+These metrics describe performance on the current dataset and should not be interpreted as a guarantee of perfect performance on new customer requests. Exact duplicate descriptions are grouped before splitting, but similar descriptions may still occur across training, validation, and test sets. This may make the evaluation results overly optimistic.
+
+Further evaluation should include more diverse, independently collected warranty descriptions and additional checks for near-duplicate records.
+
 
 Current validation results:
 
