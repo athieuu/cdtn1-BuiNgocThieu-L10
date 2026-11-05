@@ -51,6 +51,32 @@ class TestPredictIssue(unittest.TestCase):
             ["Pin điện thoại nhanh hết pin"]
         )
 
+    def test_reject_invalid_prediction_label(self):
+        self.model.predict.return_value = ["UNKNOWN"]
+
+        with self.assertRaises(ValueError):
+            predict_issue(
+                self.model,
+                "Pin điện thoại nhanh hết pin",
+            )
+
+    def test_reject_empty_description(self):
+        with self.assertRaises(ValueError):
+            predict_issue(self.model, "")
+
+        self.model.predict.assert_not_called()
+
+    def test_reject_whitespace_description(self):
+        with self.assertRaises(ValueError):
+            predict_issue(self.model, "   ")
+
+        self.model.predict.assert_not_called()
+
+    def test_reject_non_string_description(self):
+        with self.assertRaises(TypeError):
+            predict_issue(self.model, None)
+
+        self.model.predict.assert_not_called()
     def test_reject_empty_description(self):
         with self.assertRaises(ValueError):
             predict_issue(self.model, "")
