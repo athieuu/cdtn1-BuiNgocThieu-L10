@@ -7,7 +7,14 @@ from sklearn.model_selection import GroupShuffleSplit
 DATA_PATH = Path("data/raw/issue_descriptions.csv")
 OUTPUT_DIR = Path("data/processed")
 RANDOM_SEED = 42
-
+VALID_LABELS = {
+    "MAN_HINH",
+    "PIN",
+    "SAC",
+    "PHAN_MEM",
+    "NUOC_VAO",
+    "KHAC",
+}
 
 def main():
     if not DATA_PATH.exists():
@@ -16,11 +23,25 @@ def main():
     df = pd.read_csv(DATA_PATH, encoding="utf-8")
 
     required = {"desc_id", "issue_desc", "issue_category"}
+
     if not required.issubset(df.columns):
-        raise ValueError(f"Dataset cần có các cột: {sorted(required)}")
+        raise ValueError(
+            f"Dataset cần có các cột: {sorted(required)}"
+        )
+
+    invalid_labels = (
+        set(df["issue_category"].dropna()) - VALID_LABELS
+    )
+
+    if invalid_labels:
+        raise ValueError(
+            f"Dataset có nhãn không hợp lệ: {sorted(invalid_labels)}"
+        )
 
     if df["issue_desc"].isna().any() or df["issue_category"].isna().any():
         raise ValueError("Dataset có mô tả hoặc nhãn bị thiếu.")
+
+    # Phần code xử lý split còn lại giữ nguyên
 
     # Chuẩn hóa để các mô tả giống nhau không bị chia sang nhiều tập
     groups = (

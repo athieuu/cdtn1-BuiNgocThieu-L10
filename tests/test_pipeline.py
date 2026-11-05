@@ -8,6 +8,8 @@ from unittest.mock import Mock, patch
 from src.predict import predict_issue
 from src.data import check_split
 
+from src.data import split_data
+
 
 ROOT = Path(__file__).resolve().parent.parent
 DATA = ROOT / "data" / "raw" / "issue_descriptions.csv"
@@ -144,6 +146,50 @@ class TestCheckSplit(unittest.TestCase):
                 ):
                     check_split.main()
 
+    def test_reject_invalid_category_label(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            temp_path = Path(temp_dir)
+
+            labels = [
+                "MAN_HINH",
+                "PIN",
+                "SAC",
+                "PHAN_MEM",
+                "NUOC_VAO",
+                "KHAC",
+            ]
+
+            df = pd.DataFrame({
+                "desc_id": range(1, 61),
+                "issue_desc": [
+                    f"Mô tả lỗi điện thoại số {i}"
+                    for i in range(1, 61)
+                ],
+                "issue_category": [
+                    labels[i % len(labels)]
+                    for i in range(60)
+                ],
+            })
+
+            df.loc[0, "issue_category"] = "UNKNOWN"
+
+            input_path = temp_path / "issue_descriptions.csv"
+            output_dir = temp_path / "processed"
+
+            df.to_csv(input_path, index=False)
+
+            with patch(
+                "src.data.split_data.DATA_PATH",
+                input_path,
+            ), patch(
+                "src.data.split_data.OUTPUT_DIR",
+                output_dir,
+            ):
+                with self.assertRaisesRegex(
+                    ValueError,
+                    "UNKNOWN",
+                ):
+                    split_data.main()
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)

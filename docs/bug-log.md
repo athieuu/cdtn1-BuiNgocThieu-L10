@@ -40,3 +40,14 @@
 - **Giải pháp:** Bổ sung kiểm tra schema cho các cột `issue_desc` và `issue_category`. Nếu thiếu cột, chương trình phát sinh `ValueError` kèm thông báo tên file và cột bị thiếu.
 - **Kiểm thử:** Trước khi sửa, test thất bại với lỗi `KeyError: 'issue_desc'`. Sau khi sửa, test `test_missing_required_column` PASS. Toàn bộ 13 test trong bộ kiểm thử đều PASS.
 - **Trạng thái:** Đã sửa - PASS
+
+## BUG-05: Dataset chấp nhận nhãn phân loại không hợp lệ
+
+- **Mức độ nghiêm trọng:** Minor (Nhẹ)
+- **Thành phần:** `src/data/split_data.py`
+- **Mô tả lỗi:** Chương trình chia dữ liệu vẫn chấp nhận giá trị `issue_category` không thuộc tập nhãn hợp lệ. Điều này có thể làm ảnh hưởng đến chất lượng và tính nhất quán của dữ liệu huấn luyện.
+- **Cách tái hiện:** Thay một nhãn hợp lệ trong dataset bằng `UNKNOWN`, sau đó chạy chương trình chia dữ liệu.
+- **Nguyên nhân:** Chưa có bước kiểm tra các nhãn `issue_category` trước khi thực hiện chia tập dữ liệu.
+- **Giải pháp:** Bổ sung tập `VALID_LABELS` gồm MAN_HINH, PIN, SAC, PHAN_MEM, NUOC_VAO, KHAC và kiểm tra các nhãn không hợp lệ. Nếu phát hiện nhãn ngoài tập hợp, chương trình phát sinh `ValueError`.
+- **Kiểm thử:** Trước khi sửa, test `test_reject_invalid_category_label` thất bại do chương trình không phát sinh `ValueError`. Sau khi sửa, test PASS. Toàn bộ 14 unit tests PASS. Pipeline chia dữ liệu, kiểm tra leakage và đánh giá model được thực hiện thành công.
+- **Trạng thái:** Đã sửa - PASS.
