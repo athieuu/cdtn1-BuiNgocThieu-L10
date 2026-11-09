@@ -86,7 +86,7 @@ The CSV file must contain `desc_id`, `issue_desc`, and `issue_category`.
 
 Run the pipeline from the repository root:
 
-```bash
+```powershell
 python src/run_pipeline.py
 ```
 
@@ -95,28 +95,36 @@ The pipeline performs the following steps:
 1. Validate the raw dataset.
 2. Split the dataset into training, validation, and test sets.
 3. Check the data splits for exact duplicate descriptions.
-4. Train a TF-IDF + Logistic Regression baseline.
-5. Train a TF-IDF + Linear SVM model.
-6. Compare models using validation metrics.
+4. Train TF-IDF + Logistic Regression (baseline).
+5. Train TF-IDF + Multinomial Naive Bayes.
+6. Train TF-IDF + Linear SVM.
+7. Compare the three models using validation metrics.
 
-The pipeline does **not** evaluate the test set by default. The test set should be used only after model selection is complete.
+The pipeline does **not** evaluate the test set by default. The test set is used only after model selection is complete.
 
-## 7. Models and Validation Results
+To perform the final evaluation of the selected model:
 
-### 7.1 Model Selection
+```powershell
+python src/run_pipeline.py --evaluate-test
+```
 
-Three TF-IDF-based models are evaluated on the validation set. Logistic Regression is the baseline; Multinomial Naive Bayes and Linear SVC are the two comparison models. Record the actual metrics after running the pipeline:
+## 7. Models and Evaluation Results
 
-| Model | Accuracy | Macro-F1 | Weighted-F1 |
-|---|---:|---:|---:|
-| TF-IDF + Logistic Regression (Baseline) | 0.9933 | 0.9884 | 0.9931 |
-| TF-IDF + Multinomial Naive Bayes | To be measured | To be measured | To be measured |\n| TF-IDF + Linear SVC | 1.0000* | 1.0000* | 1.0000* |
+### 7.1 Validation Model Comparison
 
-Linear SVC was selected in the prior experiment based on validation Macro-F1. Re-run the three-model comparison before confirming this selection after adding Naive Bayes. The test set is not used for model selection.\n\n*Previous validation run; refresh these values and the Naive Bayes row using `python src/models/train_nb.py` and `python src/models/compare_models.py`.
+The models were compared using the validation set (596 records). Logistic Regression is the baseline, while Multinomial Naive Bayes and Linear SVM are the two comparison models.
+
+| Model | Role | Accuracy | Macro-F1 | Weighted-F1 |
+|---|---|---:|---:|---:|
+| TF-IDF + Logistic Regression | Baseline | 0.9933 | 0.9884 | 0.9931 |
+| TF-IDF + Multinomial Naive Bayes | Model 1 | 0.9866 | 0.9764 | 0.9859 |
+| TF-IDF + Linear SVM | Model 2 | 1.0000 | 1.0000 | 1.0000 |
+
+Linear SVM was selected because it achieved the highest validation Macro-F1. The held-out test set was not used for model selection.
 
 ### 7.2 Final Test Evaluation
 
-After model selection, the selected Linear SVC model was evaluated on the held-out test set containing 626 records.
+After selecting Linear SVM based on validation results, the model was evaluated once on the held-out test set containing 626 records.
 
 | Metric | Test Score |
 |---|---:|
@@ -124,7 +132,7 @@ After model selection, the selected Linear SVC model was evaluated on the held-o
 | Macro-F1 | 1.0000 |
 | Weighted-F1 | 1.0000 |
 
-All six categories achieved precision, recall, and F1-score of 1.0000 on this test set.
+All six categories achieved precision, recall, and F1-score of 1.0000 on this test run.
 
 | Category | Precision | Recall | F1-score | Support |
 |---|---:|---:|---:|---:|
@@ -135,42 +143,27 @@ All six categories achieved precision, recall, and F1-score of 1.0000 on this te
 | PIN | 1.0000 | 1.0000 | 1.0000 | 143 |
 | SAC | 1.0000 | 1.0000 | 1.0000 | 74 |
 
-The confusion matrix is available at `reports/test_confusion_matrix.png`. The recorded matrix contains no off-diagonal errors for this test run.
+The confusion matrix is saved at `reports/test_confusion_matrix.png`. This run shows no off-diagonal errors.
 
 ### 7.3 Interpretation and Limitations
 
-These metrics describe performance on the current dataset and should not be interpreted as a guarantee of perfect performance on new customer requests. Exact duplicate descriptions are grouped before splitting, but similar descriptions may still occur across training, validation, and test sets. This may make the evaluation results overly optimistic.
-
-Further evaluation should include more diverse, independently collected warranty descriptions and additional checks for near-duplicate records.
-
-
-Current validation results:
-
-| Model | Accuracy | Macro-F1 | Weighted-F1 |
-|---|---:|---:|---:|
-| TF-IDF + Logistic Regression | 0.9933 | 0.9884 | 0.9931 |
-| TF-IDF + Linear SVM | 1.0000 | 1.0000 | 1.0000 |
-
-Linear SVM currently ranks first by validation Macro-F1. These results should be interpreted alongside the potential impact of near-duplicate descriptions.
+These metrics describe performance on the current dataset; they do not guarantee perfect classification of new customer requests. Exact duplicate descriptions were grouped before splitting, but semantically or lexically similar descriptions may remain across splits and make the evaluation optimistic. Further evaluation should use more diverse, independently collected warranty descriptions and additional near-duplicate analysis.
 
 ## 8. Testing
 
-Run unit tests from the repository root:
+Run the unit tests from the repository root:
 
-```bash
+```powershell
 python -m unittest discover -s tests -v
 ```
 
-The tests cover:
+The test suite is designed to cover normal cases, boundary cases (single-character and long descriptions, Unicode/special characters, surrounding whitespace), and invalid cases (empty/whitespace descriptions, non-string input, invalid/empty model prediction, missing dataset columns, invalid or missing labels and empty descriptions in the raw dataset).
 
-- Required dataset columns
-- Dataset availability
-- Non-empty descriptions
-- Valid category labels
-- Unique identifiers
-- Valid prediction input
-- Empty and whitespace-only descriptions
-- Non-string prediction input
+Test Plan and Test Report:
+- `docs/test-plan.md`
+- `docs/test-report.md`
+
+Capture terminal screenshots of the actual unit-test run and store them under `docs/screenshot/`. The test report should only state the observed number of tests and pass/fail status after the suite has been run locally.
 
 ## 9. Project Structure
 
