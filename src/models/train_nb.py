@@ -53,7 +53,7 @@ def main():
         val["issue_category"], predictions, average="weighted", zero_division=0
     )
 
-    print("=== MODEL 2: TF-IDF + MULTINOMIAL NAIVE BAYES ===")
+    print("=== MODEL 1: TF-IDF + MULTINOMIAL NAIVE BAYES ===")
     print(f"Validation Accuracy: {accuracy:.4f}")
     print(f"Validation Macro-F1: {macro_f1:.4f}")
     print(f"Validation Weighted-F1: {weighted_f1:.4f}")
