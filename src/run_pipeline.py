@@ -11,8 +11,9 @@ STEPS = [
     ("2. Chia train/validation/test", "src/data/split_data.py"),
     ("3. Kiểm tra các tập dữ liệu", "src/data/check_split.py"),
     ("4. Train Baseline", "src/models/train_baseline.py"),
-    ("5. Train Linear SVM", "src/models/train_svm.py"),
-    ("6. So sánh mô hình trên Validation", "src/models/compare_models.py"),
+    ("5. Train Multinomial Naive Bayes", "src/models/train_nb.py"),
+    ("6. Train Linear SVM", "src/models/train_svm.py"),
+    ("7. So sánh mô hình trên Validation", "src/models/compare_models.py"),
 ]
 
 
