@@ -105,14 +105,14 @@ The pipeline does **not** evaluate the test set by default. The test set should 
 
 ### 7.1 Model Selection
 
-Two TF-IDF-based models were evaluated on the validation set:
+Three TF-IDF-based models are evaluated on the validation set. Logistic Regression is the baseline; Multinomial Naive Bayes and Linear SVC are the two comparison models. Record the actual metrics after running the pipeline:
 
 | Model | Accuracy | Macro-F1 | Weighted-F1 |
 |---|---:|---:|---:|
 | TF-IDF + Logistic Regression (Baseline) | 0.9933 | 0.9884 | 0.9931 |
-| TF-IDF + Linear SVC | 1.0000 | 1.0000 | 1.0000 |
+| TF-IDF + Multinomial Naive Bayes | To be measured | To be measured | To be measured |\n| TF-IDF + Linear SVC | 1.0000* | 1.0000* | 1.0000* |
 
-Linear SVC was selected based on its validation Macro-F1 score. The test set was not used for model selection.
+Linear SVC was selected in the prior experiment based on validation Macro-F1. Re-run the three-model comparison before confirming this selection after adding Naive Bayes. The test set is not used for model selection.\n\n*Previous validation run; refresh these values and the Naive Bayes row using `python src/models/train_nb.py` and `python src/models/compare_models.py`.
 
 ### 7.2 Final Test Evaluation
 
