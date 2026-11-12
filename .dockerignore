@@ -1,0 +1,13 @@
+
+.git
+.gitignore
+.venv
+venv
+__pycache__
+*.pyc
+.pytest_cache
+.ipynb_checkpoints
+.env
+*.log
+BT2_*.docx
+L10.docx

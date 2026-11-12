@@ -1,0 +1,10 @@
+grouping,group,samples,accuracy,precision,recall,f1
+issue_category,MAN_HINH,224,1.0,1.0,1.0,1.0
+issue_category,PIN,143,1.0,1.0,1.0,1.0
+issue_category,SAC,74,1.0,1.0,1.0,1.0
+issue_category,PHAN_MEM,85,1.0,1.0,1.0,1.0
+issue_category,NUOC_VAO,61,1.0,1.0,1.0,1.0
+issue_category,KHAC,39,1.0,1.0,1.0,1.0
+description_length,Short (1-30),15,1.0,1.0,1.0,1.0
+description_length,Medium (31-100),611,1.0,1.0,1.0,1.0
+description_length,Long (>100),0,,,,

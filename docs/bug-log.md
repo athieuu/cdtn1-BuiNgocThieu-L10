@@ -1,53 +1,92 @@
-﻿# Bug Log
+﻿# Bug Log – L10 Automatic Warranty Request Classification
 
-## BUG-01: Xác minh kiểm tra dữ liệu đầu vào của hàm dự đoán
+## 1. Overview
 
-- **Phạm vi:** `src/predict.py`
-- **Nội dung kiểm tra:** Đảm bảo hàm dự đoán xử lý đúng mô tả hợp lệ và từ chối đầu vào không hợp lệ.
-- **Cách kiểm chứng:** Chạy `python -m unittest discover -s tests -v`.
-- **Kết quả thực tế:** Các test `test_predict_valid_description`, `test_reject_empty_description`, `test_reject_non_string_description` và `test_reject_whitespace_description` đều PASS.
-- **Kết luận:** Các trường hợp đầu vào được kiểm tra đều đáp ứng kết quả mong đợi. Chưa ghi nhận lỗi trong phạm vi kiểm thử này.
-- **Trạng thái:** Đã kiểm chứng – PASS.
+This document records the actual defects identified and fixed during the development and testing of the L10 classification system.
 
-## BUG-02: Xác minh tính nhất quán khi chạy lại pipeline
+| Bug ID | Severity | Component | Status |
+|---|---|---|---|
+| BUG-03 | Major | `src/predict.py` | Fixed |
+| BUG-04 | Minor | `src/data/check_split.py` | Fixed |
+| BUG-05 | Minor | `src/data/split_data.py` | Fixed |
 
-- **Phạm vi:** `src/run_pipeline.py`
-- **Nội dung kiểm tra:** Xác minh quy trình kiểm tra dữ liệu, chia tập dữ liệu và huấn luyện mô hình có tạo ra kết quả nhất quán khi chạy lại.
-- **Cách kiểm chứng:** Chạy `python src/run_pipeline.py` hai lần liên tiếp và so sánh báo cáo đầu ra.
-- **Kết quả thực tế:** Cả hai lần chạy đều kết thúc với `PIPELINE COMPLETED SUCCESSFULLY`. Số lượng dữ liệu, phân bố nhãn và các chỉ số validation của hai mô hình đều giống nhau.
-- **Kết luận:** Chưa ghi nhận sự không nhất quán trong hai lần chạy đã kiểm tra. Kết quả chưa chứng minh tính tái lập trong mọi môi trường.
-- **Trạng thái:** Đã kiểm chứng – PASS.
+Three defects were identified and fixed. BUG-03 is classified as Major because accepting unsupported prediction labels can cause invalid classification results to be returned to downstream components.
 
-## BUG-03: Model trả về nhãn phân loại không hợp lệ
+## 2. Fixed Bugs
 
-- **Mức độ:** Major
-- **Phạm vi:** `src/predict.py`
-- **Mô tả:** Hàm `predict_issue()` chấp nhận nhãn dự đoán ngoài danh sách 6 nhãn hợp lệ.
-- **Cách tái hiện:** Thiết lập `model.predict.return_value = ["UNKNOWN"]` và gọi `predict_issue()` với mô tả hợp lệ.
-- **Nguyên nhân:** Hàm chưa xác thực nhãn đầu ra của model.
-- **Cách sửa:** Bổ sung `VALID_LABELS` và kiểm tra nhãn trước khi trả về kết quả.
-- **Kiểm thử:** Test trước khi sửa FAIL với lỗi `ValueError not raised`. Sau khi sửa, test riêng và toàn bộ 10 unit tests đều PASS.
-- **Commit:** [cdcf688](https://github.com/athieuu/cdtn1-BuiNgocThieu-L10/commit/cdcf688)
-- **Trạng thái:** Fixed – PASS.
+### BUG-03 – Model Returns an Invalid Classification Label
 
-## BUG-04: Thiếu cột bắt buộc gây lỗi KeyError không rõ ràng
+- **Severity:** Major
+- **Detected by test case:** TC-09 – Invalid model prediction label.
+- **Component:** `src/predict.py`
+- **Symptom:** `predict_issue()` accepted a prediction label outside the six supported categories.
+- **Reproduction steps:**
+  1. Create a mock model.
+  2. Set `model.predict.return_value = ["UNKNOWN"]`.
+  3. Call `predict_issue()` with a valid description.
+  4. Observe that the invalid label was not rejected before the fix.
+- **Root cause:** The prediction function did not validate the model's output against the supported category list.
+- **Fix:** Added `VALID_LABELS` and validation of the predicted label before returning the result.
+- **Verification:** Before the fix, the test failed because `ValueError` was not raised. After the fix, `test_reject_invalid_prediction_label` passed. The complete 19-test suite also passed in the latest execution.
+- **Commit:** [cdcf688 – Validate prediction output labels](https://github.com/athieuu/cdtn1-BuiNgocThieu-L10/commit/cdcf688)
+- **Status:** Fixed – PASS.
 
-- **Mức độ nghiêm trọng:** Minor (Nhẹ)
-- **Thành phần:** `src/data/check_split.py`
-- **Mô tả lỗi:** Chương trình kiểm tra dữ liệu chưa xác thực các cột bắt buộc trước khi truy cập cột `issue_desc`. Khi file dữ liệu thiếu cột này, chương trình phát sinh lỗi `KeyError` thay vì thông báo lỗi dữ liệu rõ ràng.
-- **Cách tái hiện:** Tạo file `train.csv` chỉ chứa cột `issue_category`, không có cột `issue_desc`, sau đó chạy hàm `check_split.main()`.
-- **Nguyên nhân:** Chưa có bước kiểm tra sự tồn tại của các cột bắt buộc trước khi xử lý dữ liệu.
-- **Giải pháp:** Bổ sung kiểm tra schema cho các cột `issue_desc` và `issue_category`. Nếu thiếu cột, chương trình phát sinh `ValueError` kèm thông báo tên file và cột bị thiếu.
-- **Kiểm thử:** Trước khi sửa, test thất bại với lỗi `KeyError: 'issue_desc'`. Sau khi sửa, test `test_missing_required_column` PASS. Toàn bộ 13 test trong bộ kiểm thử đều PASS.
-- **Trạng thái:** Đã sửa - PASS
+### BUG-04 – Missing Required Column Causes an Unclear KeyError
 
-## BUG-05: Dataset chấp nhận nhãn phân loại không hợp lệ
+- **Severity:** Minor
+- **Detected by test case:** TC-16 – Missing required column in split dataset validation.
+- **Component:** `src/data/check_split.py`
+- **Symptom:** The checker accessed `issue_desc` before validating the dataset schema. A missing column caused an unclear `KeyError`.
+- **Reproduction steps:**
+  1. Create a temporary `train.csv` containing only the `issue_category` column.
+  2. Run `check_split.main()`.
+  3. Observe the `KeyError` before the fix.
+- **Root cause:** Required-column validation was missing before data processing.
+- **Fix:** Added schema validation for the required `issue_desc` and `issue_category` columns. Missing columns now produce a clear `ValueError`.
+- **Verification:** Before the fix, the test failed with `KeyError: 'issue_desc'`. After the fix, `test_missing_required_column` passed. The latest complete suite passed all 19 tests.
+- **Commit:** [59f7ff3 – Validate required columns in split checker](https://github.com/athieuu/cdtn1-BuiNgocThieu-L10/commit/59f7ff3)
+- **Status:** Fixed – PASS.
 
-- **Mức độ nghiêm trọng:** Minor (Nhẹ)
-- **Thành phần:** `src/data/split_data.py`
-- **Mô tả lỗi:** Chương trình chia dữ liệu vẫn chấp nhận giá trị `issue_category` không thuộc tập nhãn hợp lệ. Điều này có thể làm ảnh hưởng đến chất lượng và tính nhất quán của dữ liệu huấn luyện.
-- **Cách tái hiện:** Thay một nhãn hợp lệ trong dataset bằng `UNKNOWN`, sau đó chạy chương trình chia dữ liệu.
-- **Nguyên nhân:** Chưa có bước kiểm tra các nhãn `issue_category` trước khi thực hiện chia tập dữ liệu.
-- **Giải pháp:** Bổ sung tập `VALID_LABELS` gồm MAN_HINH, PIN, SAC, PHAN_MEM, NUOC_VAO, KHAC và kiểm tra các nhãn không hợp lệ. Nếu phát hiện nhãn ngoài tập hợp, chương trình phát sinh `ValueError`.
-- **Kiểm thử:** Trước khi sửa, test `test_reject_invalid_category_label` thất bại do chương trình không phát sinh `ValueError`. Sau khi sửa, test PASS. Toàn bộ 14 unit tests PASS. Pipeline chia dữ liệu, kiểm tra leakage và đánh giá model được thực hiện thành công.
-- **Trạng thái:** Đã sửa - PASS.
+### BUG-05 – Dataset Accepts an Unsupported Category Label
+
+- **Severity:** Minor
+- **Detected by test case:** TC-17 – Invalid category label in raw dataset.
+- **Component:** `src/data/split_data.py`
+- **Symptom:** The data splitting process accepted an `issue_category` value outside the six supported categories.
+- **Reproduction steps:**
+  1. Create a temporary raw dataset with the required columns.
+  2. Replace one valid category with `UNKNOWN`.
+  3. Run the data splitting process.
+  4. Observe that the invalid label was not rejected before the fix.
+- **Root cause:** The splitting process did not validate category labels before creating the train, validation, and test datasets.
+- **Fix:** Added `VALID_LABELS` containing `MAN_HINH`, `PIN`, `SAC`, `PHAN_MEM`, `NUOC_VAO`, and `KHAC`. The program now raises `ValueError` when unsupported labels are found.
+- **Verification:** Before the fix, `test_reject_invalid_category_label` failed because `ValueError` was not raised. After the fix, the test passed. The latest complete suite passed all 19 tests.
+- **Commit:** [7437d72 – Validate category labels before data splitting](https://github.com/athieuu/cdtn1-BuiNgocThieu-L10/commit/7437d72)
+- **Status:** Fixed – PASS.
+
+## 3. Verification Notes
+
+The following checks were performed during development. They are verification activities, not additional software defects.
+
+### VN-01 – Prediction Input Validation
+
+- **Component:** `src/predict.py`
+- **Verification:** Tested valid descriptions, empty descriptions, whitespace-only descriptions, and non-string inputs.
+- **Result:** The corresponding prediction unit tests passed.
+
+### VN-02 – Pipeline Reproducibility
+
+- **Component:** `src/run_pipeline.py`
+- **Verification:** Executed the pipeline twice and compared dataset sizes, label distributions, and validation metrics.
+- **Result:** Both executions completed with `PIPELINE COMPLETED SUCCESSFULLY`, and the recorded outputs were consistent.
+- **Limitation:** This verification covers the tested environment and configuration only; it does not guarantee identical results in every environment.
+
+## 4. Summary
+
+- Total actual defects recorded: 3.
+- Fixed defects: 3.
+- Major defects: 1.
+- Minor defects: 2.
+- Latest automated unit test execution: 19 passed, 0 failed.
+
+All three recorded defects have corresponding fix commits and post-fix test evidence.

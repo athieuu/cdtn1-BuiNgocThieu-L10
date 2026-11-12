@@ -1,63 +1,136 @@
-# Test Report – L10 Automatic Warranty Request Classification
+# Test Report – L10 Automatic Warranty Request Classificationưq
 
-## 1. Thông tin chạy kiểm thử
+## Thông tin chạy kiểm thử
 - Repo: `athieuu/cdtn1-BuiNgocThieu-L10`
 - Branch: `fix/bt2-feedback-c4-c6-models`
 - Môi trường: Windows PowerShell (Python 3.11 theo môi trường project)
 - Unit test command: `python -m unittest discover -s tests -v`
 
-## 2. Unit Test – C4
+# Test Report – L10 Automatic Warranty Request Classification
 
-Kết quả chạy thực tế được cung cấp từ terminal:
+## 1. Test Execution Summary
 
-| Kết quả | Số lượng |
-|---|---:|
-| Tổng số test | 19 |
-| PASS | 19 |
-| FAIL | 0 |
-| Thời gian chạy | 0.094 giây |
+| Item | Result |
+|---|---|
+| Project | L10 – Automatic Warranty Request Classification |
+| Test date | 2026-11-12 |
+| Test environment | Windows, Python 3.11 |
+| Test framework | Python unittest |
+| Total automated unit tests | 19 |
+| Passed | 19 |
+| Failed | 0 |
+| Execution time | 0.194 seconds |
+| Overall result | PASS |
 
-**Kết luận: 19/19 unit test PASS.**
+### Execution Command
 
-Bộ kiểm thử có các nhóm test:
-- **Normal / đúng:** kiểm tra dataset có dữ liệu, đủ cột, mô tả không rỗng, nhãn hợp lệ, ID duy nhất; dự đoán mô tả hợp lệ.
-- **Boundary / biên:** mô tả một ký tự, mô tả dài, Unicode/ký tự đặc biệt, khoảng trắng đầu/cuối.
-- **Invalid / dữ liệu sai:** mô tả rỗng hoặc whitespace, input không phải chuỗi, nhãn dự đoán không hợp lệ, prediction rỗng, thiếu cột/nhãn, category sai, mô tả raw trống.
-
-Các test được chạy bởi:
 ```powershell
 python -m unittest discover -s tests -v
 ```
 
-Minh chứng: lưu ảnh chụp terminal có danh sách test và dòng `Ran 19 tests ... OK` vào `docs/screenshot/` rồi commit lên repo.
+### Actual Terminal Output
 
-## 3. Kết quả pipeline và thực nghiệm mô hình
+```text
+Ran 19 tests in 0.194s
 
-### Data validation và split
-- Raw dataset: 4,000 records; 3 columns.
-- Missing values: 0; missing IDs: 0; empty descriptions: 0; invalid labels: 0; duplicate IDs: 0.
-- Train: 2,778 records; Validation: 596 records; Test: 626 records.
-- Exact duplicate descriptions giữa từng cặp split: 0.
-- Pipeline chạy hoàn tất thành công.
+OK
+```
 
-### Validation model comparison (596 records)
+## 2. Representative Test Case Results
 
-| Model | Role | Accuracy | Macro-F1 | Weighted-F1 |
-|---|---|---:|---:|---:|
-| TF-IDF + Logistic Regression | Baseline | 0.9933 | 0.9884 | 0.9931 |
-| TF-IDF + Multinomial Naive Bayes | Model 1 | 0.9866 | 0.9764 | 0.9859 |
-| TF-IDF + Linear SVM | Model 2 | 1.0000 | 1.0000 | 1.0000 |
+The following 12 cases represent the main functional, boundary, invalid-data, security, and reproducibility scenarios. The automated cases are covered by the 19-test unit suite. Manual checks are identified separately.
 
-Linear SVM được chọn vì có Macro-F1 cao nhất trên Validation. Test không tham gia lựa chọn mô hình.
+| ID | Preconditions | Test steps | Test data | Expected result | Priority | Actual result | Status |
+|---|---|---|---|---|---|---|---|
+| TC-01 | Raw dataset is available | Load dataset and check required columns | `issue_descriptions.csv` | All required columns exist | High | Required columns were present | PASS |
+| TC-02 | Raw dataset is available | Check dataset size and description values | 4,000 records | Dataset is non-empty and descriptions are valid | High | Dataset validation passed | PASS |
+| TC-03 | Prediction function and mock model are available | Predict a valid description | Valid warranty issue description | Return a supported category | High | Valid category returned | PASS |
+| TC-04 | Prediction function and mock model are available | Predict a one-character description | `"A"` | Input is processed and a category is returned | Medium | Input validation and prediction passed | PASS |
+| TC-05 | Prediction function and mock model are available | Predict a long description | Description repeated 1,000 times | Input is processed without an unexpected exception | Medium | Long input was processed | PASS |
+| TC-06 | Prediction function and mock model are available | Predict a Unicode description | Vietnamese text and special characters | No encoding error; return a category | Medium | Unicode input was processed | PASS |
+| TC-07 | Prediction function is available | Submit an empty description | `""` | Raise `ValueError` | High | `ValueError` was raised | PASS |
+| TC-08 | Prediction function is available | Submit a non-string input | `123` | Raise `TypeError` | High | `TypeError` was raised | PASS |
+| TC-09 | Prediction function and mock model are available | Return an unsupported prediction label | `UNKNOWN` | Raise `ValueError` | High | Invalid prediction was rejected | PASS |
+| TC-10 | Temporary raw dataset can be created | Load a dataset containing an unsupported category | `UNKNOWN` | Raise `ValueError` | High | Invalid category was rejected | PASS |
+| TC-11 | Repository root is available | Check `.env` ignore and tracking status | `.env` | `.env` is ignored and is not tracked | High | `.env` was absent, ignored by Git, and not tracked | PASS |
+| TC-12 | Docker and project files are available | Execute the pipeline twice and compare generated outputs | Same raw dataset and random seed 42 | Dataset sizes and outputs remain consistent; no duplicate records are appended | Medium | Repeated execution produced consistent outputs according to the recorded verification | PASS |
 
-### Final Test evaluation (626 records)
-- Accuracy: 1.0000
-- Macro-F1: 1.0000
-- Weighted-F1: 1.0000
-- Support theo nhãn: KHAC 39; MAN_HINH 224; NUOC_VAO 61; PHAN_MEM 85; PIN 143; SAC 74.
-- Confusion matrix: không có lỗi ngoài đường chéo theo kết quả terminal.
-- Artifact: `reports/test_metrics.json`, `reports/test_confusion_matrix.png`.
+**Execution note:** TC-01 to TC-10 are automated test scenarios represented by the unit test suite. TC-11 and TC-12 are manual verification scenarios and are not included in the count of 19 automated unit tests.
 
-## 4. Nhận xét
-Unit test xác nhận các trường hợp normal, boundary và invalid đã liệt kê đều chạy PASS. Kết quả test set phản ánh dữ liệu hiện tại, không bảo đảm hiệu năng hoàn hảo trên các yêu cầu bảo hành mới. Mô tả tương tự/near-duplicate giữa các tập có thể khiến metric lạc quan; cần trình bày giới hạn này trong báo cáo.
+## 3. Dataset Validation Results
 
+| Validation item | Result |
+|---|---:|
+| Raw dataset records | 4,000 |
+| Missing required columns | 0 |
+| Missing IDs | 0 |
+| Empty descriptions | 0 |
+| Invalid category labels | 0 |
+| Duplicate IDs | 0 |
+| Exact duplicate descriptions across splits | 0 |
+
+### Dataset Split Results
+
+| Dataset | Records | Percentage |
+|---|---:|---:|
+| Train | 2,778 | 69.45% |
+| Validation | 596 | 14.90% |
+| Test | 626 | 15.65% |
+| **Total** | **4,000** | **100%** |
+
+The split process uses `GroupShuffleSplit` with random seed 42 to prevent exact normalized-description overlap across datasets.
+
+## 4. Model Evaluation Results
+
+### Validation Results
+
+| Model | Accuracy | Macro-F1 | Weighted-F1 |
+|---|---:|---:|---:|
+| TF-IDF + Logistic Regression | 0.9933 | 0.9884 | 0.9931 |
+| TF-IDF + Multinomial Naive Bayes | 0.9866 | 0.9764 | 0.9859 |
+| TF-IDF + Linear SVM | 1.0000 | 1.0000 | 1.0000 |
+
+### Final Test Results
+
+Selected model: **TF-IDF + Linear SVM**
+
+| Metric | Result |
+|---|---:|
+| Test samples | 626 |
+| Accuracy | 1.0000 |
+| Macro-F1 | 1.0000 |
+| Weighted-F1 | 1.0000 |
+
+The test confusion matrix showed no misclassified samples in the evaluated test set.
+
+**Limitation:** These results describe performance on the current dataset split. Similar or near-duplicate descriptions may make the evaluation optimistic. The results do not guarantee equivalent performance on new real-world warranty requests.
+
+## 5. Pipeline and Docker Verification
+
+Previously executed integration checks:
+
+| Verification | Expected result | Recorded result |
+|---|---|---|
+| `docker compose up -d --build` | Docker image builds and runtime starts | Completed successfully |
+| `docker compose ps` | Runtime service reports healthy | Healthy |
+| `docker compose --profile pipeline run --rm pipeline` | Pipeline completes successfully | `PIPELINE COMPLETED SUCCESSFULLY` |
+| Docker unit test execution | All 19 tests pass | `Ran 19 tests ... OK` |
+
+## 6. Test Evidence
+
+Evidence to retain in the project:
+
+- Terminal screenshot showing all 19 unit tests and the final `OK` summary.
+- Docker runtime status showing `healthy`.
+- Pipeline execution output showing `PIPELINE COMPLETED SUCCESSFULLY`.
+- Model evaluation metrics and confusion matrix in the `reports/` directory.
+
+The automated test execution on 2026-11-12 completed with 19 passed tests and zero failures.
+
+## 7. Overall Conclusion
+
+The automated unit test suite passed all 19 tests. Dataset validation, prediction input validation, prediction output validation, and data splitting checks behaved as expected in the tested scenarios.
+
+The project pipeline and Docker runtime were also successfully executed in the recorded integration checks.
+
+The system is considered to have passed the current BT3 test scope. Further evaluation with independent real-world warranty requests is recommended before production use.
