@@ -117,8 +117,6 @@ These results describe performance on the available dataset and split. They do n
 - Exact normalized duplicates are prevented across splits, but near-duplicate descriptions may still remain.
 - No evidence currently establishes performance across different devices, regions, customer populations, or independently collected production data.
 
-## 8. Bias and Group Performance Evaluation
-
 
 ## 8. Bias and Group Performance Evaluation
 
