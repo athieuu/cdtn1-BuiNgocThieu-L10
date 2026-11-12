@@ -1,0 +1,9 @@
+{
+  "model": "TF-IDF + Multinomial Naive Bayes",
+  "evaluation_split": "validation",
+  "accuracy": 0.9865771812080537,
+  "macro_f1": 0.9764480117083078,
+  "weighted_f1": 0.9859444349248861,
+  "train_rows": 2778,
+  "validation_rows": 596
+}

@@ -1,0 +1,40 @@
+
+services:
+  runtime:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: l10-warranty-classifier:1.0
+    container_name: l10-runtime
+    working_dir: /app
+    command: ["python", "-c", "import time; time.sleep(2147483647)"]
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "scripts/healthcheck.py"]
+      interval: 15s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
+
+  pipeline:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: l10-warranty-classifier:1.0
+    working_dir: /app
+    profiles:
+      - pipeline
+    depends_on:
+      runtime:
+        condition: service_healthy
+    command: ["python", "src/run_pipeline.py"]
+    volumes:
+      - ./data/processed:/app/data/processed
+      - ./models:/app/models
+      - ./reports:/app/reports
+    healthcheck:
+      test: ["CMD", "python", "scripts/healthcheck.py"]
+      interval: 15s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
